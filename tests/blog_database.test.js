@@ -83,7 +83,7 @@ describe('Data modifying tests', () => {
   })
 })
 
-describe('Adding new blog', () => {
+describe('Removing and adding', () => {
 
   test('Succesfully added new blog', async () => {
 
@@ -108,6 +108,29 @@ describe('Adding new blog', () => {
     expect(addedBlog).toEqual(newBlog)
 
   })
+  
+   test('Bearer missing when adding new blog', async () => {
+
+
+    newBlog =  {
+      "title": "title4",
+      "author": "author4",
+      "url": "https://greenlivingguy.com/2020/02/mitch-evans-panasonic-team-wins-formula-e-in-mexico-city/",
+      "likes": 2
+	}
+
+    const response = await httpclient
+	.post('/api/blogs')
+	.send(newBlog)
+	.set('content-type', 'application/json')
+
+  
+	expect(401).toBe(response.status)
+	
+    expect(response.body).toEqual({ error: 'token was invalid' })
+
+  })
+  
   
   test('Blog was removed', async () => { 
   
